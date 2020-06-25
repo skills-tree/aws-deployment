@@ -18,7 +18,7 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: mvn dependency:go-offline
+      - run: mvn -s .circleci/settings.xml dependency:go-offline
 
       - save_cache:
           paths:
@@ -26,10 +26,10 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # Static analysis
-      - run: mvn checkstyle:checkstyle
+      - run: mvn -s .circleci/settings.xml checkstyle:checkstyle
 
       # Unit & Integration Tests
-      - run: mvn verify
+      - run: mvn -s .circleci/settings.xml verify
 
      # - run: mvn sonar:sonar
 
