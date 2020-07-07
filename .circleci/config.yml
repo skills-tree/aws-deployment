@@ -25,16 +25,20 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      # Static analysis
-      - run: mvn -s .circleci/settings.xml checkstyle:checkstyle
+      - run:
+          name: Checkstyle
+          command: mvn -s .circleci/settings.xml checkstyle:checkstyle
 
-      # Unit & Integration Tests
-      - run: mvn -s .circleci/settings.xml verify
+      - run:
+          name: Unit & Integration Tests
+          command: mvn -s .circleci/settings.xml verify
 
-      # - run: mvn sonar:sonar
+      - run:
+          name: Static Analysis
+          command: mvn -s .circleci/settings.xml sonar:sonar
 
-#workflows:
-#  main:
-#    jobs:
-#      - build:
-#          context: SonarCloud
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
